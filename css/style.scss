@@ -1,0 +1,246 @@
+@import "colors";
+@import "typography";
+@import "variables";
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: $font-roboto;
+    cursor: default;
+    user-select: none;
+}
+
+.container {
+    width: $container-height * 9 / 16;
+    min-height: 400px;
+    min-width: 250px;
+    height: $container-height;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 2.5vh;
+    margin: auto;
+    background: $background-grey;
+    border-radius: 10px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 16%;
+    width: 100%;
+    background: $primary-blue;
+    border: {
+        top: {
+            left-radius: 10px;
+            right-radius: 10px;
+        }
+    }
+}
+
+.header-title {
+    margin-left: 15px;
+    margin-top: 25px;
+    color: white;
+    font-size: 18px;
+}
+
+.controls {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.select-container {
+    display: flex;
+}
+
+.btn-wrapper {
+    padding-right: 15px;
+    padding-left: 15px;
+    cursor: pointer;
+}
+
+.btn {
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+}
+
+.btn-active {
+    border-bottom: 3px solid white;
+}
+
+.sort-btn {
+    margin-bottom: 7px;
+    margin-right: 15px;
+    height: 20px;
+    width: 25px;
+    cursor: pointer;
+}
+
+.main {
+    position: relative;
+    overflow: auto;
+    height: 84%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    border: {
+        bottom: {
+            right-radius: 10px;
+            left-radius: 10px;
+        }
+    }
+}
+
+.err-msg {
+    height: 18px;
+    margin: auto;
+    color: $grey;
+    font-size: 18px;
+}
+
+.main::-webkit-scrollbar {
+    width: 1%;
+    border-radius: 2px;
+}
+
+.main::-webkit-scrollbar-thumb {
+    background: darkgrey;
+    border-radius: 10px;
+}
+
+.main-item-wrapper {
+    height: 99%;
+    flex: 0 1 95%;
+    max-width: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+}
+
+.main-item {
+    cursor: pointer;
+    flex: 0 1 49%;
+    max-width: 49%;
+    height: 30%;
+    margin-bottom: 2%;
+    background: white;
+    border-radius: 1px;
+    box-shadow: 0 1px 5px $grey;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.avatar {
+    cursor: pointer;
+    width: 53%;
+    height: 55%;
+    border-radius: 50%;
+    align-self: center;
+}
+
+.caption {
+    cursor: pointer;
+    margin: {
+        left: 5%;
+        top: 7%;
+        bottom: 5%;
+    }
+    p:first-child {
+        cursor: pointer;
+        font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    p:last-child {
+        cursor: pointer;
+        color: $grey;
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    span {
+        color: $grey;
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.pop-up-wrapper {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    height: 84%;
+    min-height: 350px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9;
+    border: {
+        bottom: {
+            right-radius: 10px;
+            left-radius: 10px;
+        }
+    }
+}
+
+.pop-up {
+    top: 20%;
+    left: 2.5%;
+    position: relative;
+    width: 94%;
+    height: 50%;
+    background: white;
+    z-index: 10;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.pop-up-avatar {
+    flex-basis: 44%;
+    height: 55%;
+    border-radius: 50%;
+    align-self: center;
+}
+
+.pop-up-info {
+    flex-basis: 50%;
+    max-width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    p:first-child {
+        font-size: 16px;
+        color: black;
+        font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    p {
+        color: $grey;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.close-tab {
+    cursor: pointer;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    right: 5px;
+    top: 5px;
+}

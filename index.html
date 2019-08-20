@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Contacts</title>
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <div class="container" id="container">
+            <header class="header" id="header">
+                <p class="header-title">Contacts</p>
+                <div class="controls">
+                    <div class="select-container" id="selectContainer">
+                        <div class="btn-wrapper btn-active" id="1">
+                            <img class="btn" src="resources/all.png" />
+                        </div>
+                        <div class="btn-wrapper" id="2">
+                            <img class="btn" src="resources/gold.png" />
+                        </div>
+                        <div class="btn-wrapper" id="3">
+                            <img class="btn" src="resources/silver.png" />
+                        </div>
+                        <div class="btn-wrapper" id="4">
+                            <img class="btn" src="resources/bronze.png" />
+                        </div>
+                    </div>
+                    <img
+                        class="sort-btn"
+                        id="sortBtn"
+                        src="resources/sort.png"
+                    />
+                </div>
+            </header>
+            <div class="pop-up-wrapper" id="popUpWrapper"></div>
+            <main class="main">
+                <div
+                    class="main-item-wrapper"
+                    data-bind="foreach: contacts"
+                    id="mainItemWrapper"
+                >
+                    <!-- <div data-bind="visible: showErrMsg" class="err-msg ">
+                        Oops.. Some problems with connection
+                    </div> -->
+                    <div class="main-item">
+                        <img
+                            class="avatar"
+                            data-bind="attr: {src: $data.avatar_url }"
+                        />
+                        <div class="caption">
+                            <p data-bind="text: $data.login"></p>
+                            <span>Contributions: </span>
+                            <span data-bind="text: $data.contributions"></span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/knockout-3.5.0.js"></script>
+    <script src="js/script.js"></script>
+</html>
