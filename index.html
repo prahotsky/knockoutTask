@@ -11,36 +11,53 @@
                 <p class="header-title">Contacts</p>
                 <div class="controls">
                     <div class="select-container" id="selectContainer">
-                        <div class="btn-wrapper btn-active" id="1">
+                        <div
+                            data-bind="click: function() { filter('1') }"
+                            class="btn-wrapper btn-active"
+                            id="1"
+                        >
                             <img class="btn" src="resources/all.png" />
                         </div>
-                        <div class="btn-wrapper" id="2">
+                        <div
+                            data-bind="click: function() { filter('2') }"
+                            class="btn-wrapper"
+                            id="2"
+                        >
                             <img class="btn" src="resources/gold.png" />
                         </div>
-                        <div class="btn-wrapper" id="3">
+                        <div
+                            data-bind="click: function() { filter('3') }"
+                            class="btn-wrapper"
+                            id="3"
+                        >
                             <img class="btn" src="resources/silver.png" />
                         </div>
-                        <div class="btn-wrapper" id="4">
+                        <div
+                            data-bind="click: function() { filter('4') }"
+                            class="btn-wrapper"
+                            id="4"
+                        >
                             <img class="btn" src="resources/bronze.png" />
                         </div>
                     </div>
                     <img
                         class="sort-btn"
                         id="sortBtn"
+                        data-bind="click: sort()"
                         src="resources/sort.png"
                     />
                 </div>
             </header>
             <div class="pop-up-wrapper" id="popUpWrapper"></div>
             <main class="main">
+                <div data-bind="visible: errorMsg" class="err-msg ">
+                    Oops.. Some problems with connection
+                </div>
                 <div
                     class="main-item-wrapper"
-                    data-bind="foreach: contacts"
+                    data-bind="foreach: sortedContacts"
                     id="mainItemWrapper"
                 >
-                    <!-- <div data-bind="visible: showErrMsg" class="err-msg ">
-                        Oops.. Some problems with connection
-                    </div> -->
                     <div class="main-item">
                         <img
                             class="avatar"

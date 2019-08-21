@@ -116,6 +116,8 @@
   margin: auto;
   color: grey;
   font-size: 18px;
+  position: absolute;
+  top: 20px;
 }
 
 .main::-webkit-scrollbar {

@@ -10,63 +10,102 @@ function ContactsViewModel() {
     var self = this
 
     self.contacts = ko.observableArray([])
-    self.errorMsg = ko.observable(false)
+    self.errorMsg = ko.observable()
+    self.currentFilter = ko.observable()
+    self.currentSort = ko.observable("ASC")
+    self.filteredContacts = ko.computed(function() {
+        if (!self.currentFilter()) {
+            return self.contacts()
+        } else
+            switch (self.currentFilter()) {
+                case "1":
+                    return self.contacts()
+                case "2":
+                    return ko.utils.arrayFilter(self.contacts(), function(
+                        item
+                    ) {
+                        return item.contributions > 10
+                    })
+                case "3":
+                    return ko.utils.arrayFilter(self.contacts(), function(
+                        item
+                    ) {
+                        return (
+                            item.contributions >= 2 && item.contributions <= 10
+                        )
+                    })
+                case "4":
+                    return ko.utils.arrayFilter(self.contacts(), function(
+                        item
+                    ) {
+                        return item.contributions >= 1 && item.contributions < 2
+                    })
+            }
+    })
+    self.sortedContacts = ko.computed(function() {
+        if (!self.currentSort()) {
+            return self.filteredContacts()
+        } else if (self.currentSort() === "ASC") {
+            return self.filteredContacts().sort((a, b) => {
+                if (a.login.toLowerCase() < b.login.toLowerCase()) return 1
+                if (a.login.toLowerCase() > b.login.toLowerCase()) return -1
+            })
+        } else if (self.currentSort() === "DESC") {
+            return self.filteredContacts().sort((a, b) => {
+                if (a.login.toLowerCase() > b.login.toLowerCase()) return 1
+                if (a.login.toLowerCase() < b.login.toLowerCase()) return -1
+            })
+        }
+    })
+    self.filter = function(id) {
+        self.currentFilter(id)
+    }
+    self.sort = function() {
+        if (self.currentSort() === "ASC") {
+            self.currentSort("DESC")
+        } else if (self.currentSort() === "DESC") {
+            self.currentSort("ASC")
+        }
+    }
     getContacts()
         .then(response => response.json())
         .then(data => self.contacts(data))
         .catch(() => {
-            showErrMsg()
+            self.errorMsg(true)
         })
 }
-
-// var viewModel = {
-//     showErrMsg: ko.observable(false),
-//     contacts: ko.observableArray([])
-// }
 
 function getContacts() {
     return fetch(apiLink)
 }
-// fetch(apiLink)
-//     .then(res => res.json())
-//     .then(data => {
-//         contributorsArr = data
-//         groupedArr = data
-//         sortData()
-//         console.log(data)
-//         showItems(data)
-//     })
-//     .catch(() => {
-//         showErrMsg()
-//     })
 
-function showErrMsg(parent) {
-    viewModel.showErrMsg(true)
-}
+// function showErrMsg(parent) {
+//     viewModel.showErrMsg(true)
+// }
 
-function showItems(data) {
-    $("#mainItemWrapper").empty()
-    data.forEach(item => {
-        let $avatar = $("<img>")
-            .addClass("avatar")
-            .attr("src", item.avatar_url)
-        let $login = $("<p></p>").html(item.login)
-        let $contributions = $("<p></p>").html(
-            "Contributions: " + item.contributions
-        )
-        let $caption = $("<div></div>")
-            .addClass("caption")
-            .append($login)
-            .append($contributions)
-        let $contactCard = $("<div></div>")
-            .addClass("main-item")
-            .append($avatar)
-            .append($caption)
-        $("#mainItemWrapper")
-            .append($contactCard)
-            .fadeIn(300)
-    })
-}
+// function showItems(data) {
+//     $("#mainItemWrapper").empty()
+//     data.forEach(item => {
+//         let $avatar = $("<img>")
+//             .addClass("avatar")
+//             .attr("src", item.avatar_url)
+//         let $login = $("<p></p>").html(item.login)
+//         let $contributions = $("<p></p>").html(
+//             "Contributions: " + item.contributions
+//         )
+//         let $caption = $("<div></div>")
+//             .addClass("caption")
+//             .append($login)
+//             .append($contributions)
+//         let $contactCard = $("<div></div>")
+//             .addClass("main-item")
+//             .append($avatar)
+//             .append($caption)
+//         $("#mainItemWrapper")
+//             .append($contactCard)
+//             .fadeIn(300)
+//     })
+// }
 
 function listenSelect() {
     $("#selectContainer").on("click", event => {
@@ -81,45 +120,45 @@ function activateBtn(target) {
     while (target != $("#selectContainer")) {
         if (target.className === "btn-wrapper") {
             target.classList.add("btn-active")
-            groupingContributors(target)
+            // groupingContributors(target)
             return
         }
         target = target.parentNode
     }
 }
 
-function groupingContributors(target) {
-    if (selectedBtn === target.id) {
-        return
-    }
-    selectedBtn = target.id
-    switch (target.id) {
-        case "1":
-            groupedArr = contributorsArr
-            sortData()
-            showItems(groupedArr)
-            break
-        case "2":
-            groupedArr = contributorsArr.filter(item => item.contributions > 10)
-            sortData()
-            showItems(groupedArr)
-            break
-        case "3":
-            groupedArr = contributorsArr.filter(
-                item => item.contributions >= 2 && item.contributions <= 10
-            )
-            sortData()
-            showItems(groupedArr)
-            break
-        case "4":
-            groupedArr = contributorsArr.filter(
-                item => item.contributions >= 1 && item.contributions < 2
-            )
-            sortData()
-            showItems(groupedArr)
-            break
-    }
-}
+// function groupingContributors(target) {
+//     if (selectedBtn === target.id) {
+//         return
+//     }
+//     selectedBtn = target.id
+//     switch (target.id) {
+//         case "1":
+//             groupedArr = contributorsArr
+//             sortData()
+//             showItems(groupedArr)
+//             break
+//         case "2":
+//             groupedArr = contributorsArr.filter(item => item.contributions > 10)
+//             sortData()
+//             showItems(groupedArr)
+//             break
+//         case "3":
+//             groupedArr = contributorsArr.filter(
+//                 item => item.contributions >= 2 && item.contributions <= 10
+//             )
+//             sortData()
+//             showItems(groupedArr)
+//             break
+//         case "4":
+//             groupedArr = contributorsArr.filter(
+//                 item => item.contributions >= 1 && item.contributions < 2
+//             )
+//             sortData()
+//             showItems(groupedArr)
+//             break
+//     }
+// }
 
 function listenSort() {
     $("#sortBtn").on("click", () => {
@@ -131,20 +170,20 @@ function listenSort() {
 let alphabeticallySorted = true
 
 function sortData() {
-    document.getElementById("mainItemWrapper").style.display = "none"
-    if (!alphabeticallySorted) {
-        groupedArr.sort((a, b) => {
-            if (a.login.toLowerCase() < b.login.toLowerCase()) return 1
-            if (a.login.toLowerCase() > b.login.toLowerCase()) return -1
-        })
-    } else if (alphabeticallySorted) {
-        groupedArr.sort((a, b) => {
-            if (a.login.toLowerCase() > b.login.toLowerCase()) return 1
-            if (a.login.toLowerCase() < b.login.toLowerCase()) return -1
-        })
-    }
+    // document.getElementById("mainItemWrapper").style.display = "none"
+    // if (!alphabeticallySorted) {
+    //     groupedArr.sort((a, b) => {
+    //         if (a.login.toLowerCase() < b.login.toLowerCase()) return 1
+    //         if (a.login.toLowerCase() > b.login.toLowerCase()) return -1
+    //     })
+    // } else if (alphabeticallySorted) {
+    //     groupedArr.sort((a, b) => {
+    //         if (a.login.toLowerCase() > b.login.toLowerCase()) return 1
+    //         if (a.login.toLowerCase() < b.login.toLowerCase()) return -1
+    //     })
+    // }
     reverseSortBtn()
-    showItems(groupedArr)
+    // showItems(groupedArr)
 }
 
 function reverseSortBtn() {
@@ -165,7 +204,11 @@ function listenItems() {
 function getItem(target) {
     while (target != $("#mainItemWrapper")[0]) {
         if (target.className === "main-item") {
-            getMoreInfo(target.lastChild.firstChild.innerText)
+            getMoreInfo(
+                target
+                    .getElementsByTagName("div")[0]
+                    .getElementsByTagName("p")[0].innerText
+            )
             return
         }
         target = target.parentNode
